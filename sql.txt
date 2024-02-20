@@ -1,0 +1,101 @@
+CREATE TABLE Pizze (
+	id_pizze INT PRIMARY KEY,
+	nazov VARCHAR(50) NOT NULL,
+	recept VARCHAR(255),
+	cena DECIMAL(5,2) NOT NULL
+);
+CREATE TABLE Ingrediencie (
+    id_ingrediencie INT PRIMARY KEY,
+	nazov VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE PouzivaneIngrediencie (
+	id_pizze INT,
+	id_ingrediencie INT,
+	mnozstvo INT NOT NULL,
+	PRIMARY KEY (id_pizze, id_ingrediencie),
+	FOREIGN KEY (id_pizze) REFERENCES Pizze (id_pizze),
+	FOREIGN KEY (id_ingrediencie) REFERENCES Ingrediencie (id_ingrediencie)
+);
+
+CREATE TABLE Menu (
+	id_menu INT PRIMARY KEY,
+	nazov VARCHAR(50) NOT NULL,
+	cena DECIMAL(5,2) NOT NULL,
+	popis VARCHAR(255),
+    id_pizze INT,
+    FOREIGN KEY (id_pizze) REFERENCES Pizze (id_pizze)
+);
+
+CREATE TABLE Objednavky (
+	id_objednavky INT PRIMARY KEY,
+	datum_cas DATE NOT NULL,
+	zakaznik VARCHAR(50) NOT NULL,
+	celkova_cena DECIMAL(6,2) NOT NULL
+);
+
+CREATE TABLE ObjednanePolozky (
+	id_objednavky INT,
+	id_menu INT,
+	mnozstvo INT NOT NULL,
+	PRIMARY KEY (id_objednavky, id_menu),
+	FOREIGN KEY (id_objednavky) REFERENCES Objednavky (id_objednavky),
+	FOREIGN KEY (id_menu) REFERENCES Menu (id_menu)
+);
+
+
+
+INSERT INTO Pizze VALUES  (1, 'Margherita', 'Paradajkový základ, syr mozzarella a bazalka', 5.50);
+INSERT INTO Pizze VALUES (2, 'Pepperoni', 'Paradajkový základ, syr mozzarella a saláma pepperoni', 6.50);
+INSERT INTO Pizze VALUES  (3, 'Capricciosa', 'Paradajkový základ, syr mozzarella, šunka, šampiňóny a olivy', 7.50);
+INSERT INTO Pizze VALUES  (4, 'Vegetariánska', 'Paradajkový základ, syr mozzarella, zelenina a olivy', 7.50);
+INSERT INTO Pizze VALUES (5, 'Hawai', 'Paradajkový základ, syr mozzarella, šunka a ananás', 6.50);
+
+INSERT INTO Ingrediencie (id_ingrediencie, nazov) VALUES  (1, 'Paradajkový základ');
+INSERT INTO Ingrediencie VALUES (2, 'Syr mozzarella');
+INSERT INTO Ingrediencie VALUES (3, 'Saláma pepperoni');
+INSERT INTO Ingrediencie VALUES (4, 'Šunka');
+INSERT INTO Ingrediencie VALUES (5, 'Šampiňóny');
+
+
+INSERT INTO PouzivaneIngrediencie VALUES (1, 1, 1);
+INSERT INTO PouzivaneIngrediencie VALUES(1, 2, 2);
+INSERT INTO PouzivaneIngrediencie VALUES(2, 1, 1);
+INSERT INTO PouzivaneIngrediencie VALUES(2, 2, 2);
+INSERT INTO PouzivaneIngrediencie VALUES(2, 3, 3);
+INSERT INTO PouzivaneIngrediencie VALUES(3, 1, 1);
+INSERT INTO PouzivaneIngrediencie VALUES(3, 2, 2);
+INSERT INTO PouzivaneIngrediencie VALUES(3, 4, 2);
+INSERT INTO PouzivaneIngrediencie VALUES(3, 5, 2);
+INSERT INTO PouzivaneIngrediencie VALUES(4, 1, 1);
+INSERT INTO PouzivaneIngrediencie VALUES(4, 2, 2);
+INSERT INTO PouzivaneIngrediencie VALUES(4, 5, 3);
+INSERT INTO PouzivaneIngrediencie VALUES(5, 1, 1);
+INSERT INTO PouzivaneIngrediencie VALUES(5, 2, 2);
+INSERT INTO PouzivaneIngrediencie VALUES(5, 4, 2);
+INSERT INTO PouzivaneIngrediencie VALUES(5, 5, 1);
+
+
+INSERT INTO Menu VALUES (1, 'Pizza Margherita  + cola', 6, 'Classicka pizza', 1);
+INSERT INTO Menu VALUES (2, 'Pizza Pepperoni  + cola', 6.50, 'Super pizza', 2);
+INSERT INTO Menu VALUES (3, 'Pizza Capricciosa  + cola', 7.50, 'Uzasna pizza', 3);
+INSERT INTO Menu VALUES (4, 'Pizza Vegetariánska  + cola', 7.50, 'Super pizza', 4);
+INSERT INTO Menu VALUES (5, 'Pizza Hawai + cola', 7, 'Sladka pizza', 5);
+
+INSERT INTO Objednavky VALUES (1, DATE'2023-03-20', 'Stol_1', 10);
+INSERT INTO Objednavky VALUES (2, DATE'2023-03-21', 'Stol_3', 10);
+INSERT INTO Objednavky VALUES (3, DATE'2023-03-22', 'Stol_4', 10);
+INSERT INTO Objednavky VALUES (4, DATE'2023-03-23', 'Stol_2', 10);
+INSERT INTO Objednavky VALUES (5, DATE'2023-03-24', 'Stol_5', 10);
+
+INSERT INTO ObjednanePolozky VALUES (1,2,1);
+INSERT INTO ObjednanePolozky VALUES (2,2,5);
+INSERT INTO ObjednanePolozky VALUES (3,4,10);
+INSERT INTO ObjednanePolozky VALUES (4,4,11);
+
+SELECT * FROM Pizze;
+SELECT * FROM Ingrediencie;
+SELECT * FROM PouzivaneIngrediencie;
+SELECT * FROM Menu;
+SELECT * FROM ObjednanePolozky;
+SELECT * FROM Objednavky;
